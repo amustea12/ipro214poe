@@ -1,38 +1,9 @@
-// const sdk = require('./sdk.js')
-
-// ;(async () => {
-//   await sdk.configure()
-//   const spaces = [ sdk.spaces(1), sdk.spaces(2) ]
-//   async function turnOff () {
-//     spaces.forEach(async (space) => await space.turnoff())
-//     // setTimeout(turnOn, 2000)
-//   }
-//   async function turnOn () {
-//     spaces.forEach(async (space) => await space.turnon())
-//     // setTimeout(turnOff, 2000)
-//   }
-//   async function disco1 () {
-//     await Promise.all([ spaces[0].turnoff(), spaces[1].turnon() ])
-//     setTimeout(disco2, 1000 * Math.random() + 1000)
-//   }
-//   async function disco2 () {
-//     await Promise.all([ spaces[0].turnon(), spaces[1].turnoff() ])
-//     setTimeout(disco1, 1000 * Math.random() + 1000)
-//   }
-
-//   // turnOn()
-//   // (await sdk.spaces()).forEach(space => space.turnon())
-//   const space = sdk.spaces({ id: 1, memes: 'hella' })
-//   console.log(space)
-//   await space.fetch()
-//   console.log(space)
-// })()
-
-const GatewaySoftwareApi = require('gateway_software_api')
-
-const api = new GatewaySoftwareApi.SpacesApi()
-
-// api.spacesTurnOff(1, (err, data, response) => {
+// I'm pretty sure the Gateway API isn't configured properly for CORS.
+// I'll ask their engineers what's up with that. Otherwise we can't use
+// the sdk in the browser. Which would suck.
+//
+// const spacesApi = new window.GatewaySoftwareApi.SpacesApi()
+// spacesApi.spacesGet((err, data) => {
 //   if (err) {
 //     console.error(err)
 //   } else {
@@ -40,10 +11,19 @@ const api = new GatewaySoftwareApi.SpacesApi()
 //   }
 // })
 
-api.spacesGetTimer(1, (err, data) => {
-  if (err) {
-    console.error(err)
+const spaceIds = []
+fetch('http://192.168.10.2/admin/api/spaces').then(resp => resp.json()).then(json => {
+  json.list.forEach(space => spaceIds.push(space.id))
+}).catch(console.error.bind(console))
+
+const lightSwitch = document.getElementById('switch')
+
+lightSwitch.addEventListener('click', () => {
+  if (lightSwitch.src.includes('switch-on.png')) {
+    lightSwitch.src = 'switch-off.png'
+    spaceIds.forEach(id => fetch(`http://192.168.10.2/admin/api/spaces/${id}/turnoff`, { method: 'POST' }))
   } else {
-    console.log(data)
+    lightSwitch.src = 'switch-on.png'
+    spaceIds.forEach(id => fetch(`http://192.168.10.2/admin/api/spaces/${id}/turnon`, { method: 'POST' }))
   }
 })
