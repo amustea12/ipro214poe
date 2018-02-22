@@ -6,9 +6,10 @@ A JavaScript SDK and application for accessing the Igor Gateway API.
 
 ```bash
 npm install
+cd javascript-client
+npm install
+npm link
+cd ..
+npm link javascript-client
 npm start
 ```
-
-## Notes
-
-The IP address of the Gateway is hardcoded into the SDK. Like the [C# SDK](https://bitbucket.org/igordev/igor-gateway-api-c-sdk/src/44f350113609?at=master), it should be configurable from the environment, a file, or at runtime.
