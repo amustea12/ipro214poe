@@ -48,7 +48,11 @@
      * @type {String}
      * @default http://192.168.10.2/admin/api
      */
-    this.basePath = 'http://192.168.10.2/admin/api'.replace(/\/+$/, '');
+    if (typeof process === 'object' && process.browser !== true) {
+      this.basePath = 'http://192.168.10.2/admin/api'.replace(/\/+$/, '');
+    } else {
+      this.basePath = 'http://localhost:8080/admin/api'.replace(/\/+$/, '');
+    }
 
     /**
      * The authentication methods to be included for all API calls.
