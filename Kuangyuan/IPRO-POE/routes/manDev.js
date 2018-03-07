@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    var lightList = ['p1', 'p2'];
+    res.render('manDev', {lightList:lightList})
 });
 
 module.exports = router;

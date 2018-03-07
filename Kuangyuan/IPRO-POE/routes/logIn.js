@@ -10,7 +10,8 @@ router.post('/', function (req, res) {
     var email = req.body.inputEmail;
     var pw = req.body.inputPassword;
     //res.send("get post: email="+email+"pw="+pw)
-    res.render('manDev')
+    var lightList = ['p1', 'p2'];
+    res.render('manDev', {lightList:lightList})
 });
 
 module.exports = router;

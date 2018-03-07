@@ -1,4 +1,11 @@
 extends layout
 
 block content
-    
+    .container
+        form
+            each val in lightList
+                .formgroup
+                    label(for=val)=val
+                    button.btn.btn-lg.btn-primary.btn-block(type='button', name='switch', id=val) On/Off
+                    input.form-control(type='range', name='temperature')
+
