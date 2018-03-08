@@ -1,31 +1,33 @@
-// I'm pretty sure the Gateway API isn't configured properly for CORS.
-// I'll ask their engineers what's up with that. Otherwise we can't use
-// the sdk in the browser. Which would suck.
-
 const spacesApi = new window.GatewaySoftwareApi.SpacesApi()
-spacesApi.spacesGet((err, data) => {
-  if (err) {
-    console.error(err)
+
+const getSpaces = (function () {
+  let spaces
+  return () => {
+    if (!spaces) {
+      return new Promise((resolve, reject) => {
+        spacesApi.spacesGet((err, data) => {
+          if (err) {
+            reject(err)
+          } else {
+            spaces = data.list
+            resolve(spaces)
+          }
+        })
+      })
+    } else {
+      return Promise.resolve(spaces)
+    }
+  }
+}())
+
+const lightSwitch = document.getElementById('switch')
+
+lightSwitch.addEventListener('click', () => {
+  if (lightSwitch.src.includes('switch-on.png')) {
+    lightSwitch.src = 'switch-off.png'
+    getSpaces().then(spaces => spaces.forEach(space => spacesApi.spacesTurnOff(space.id)))
   } else {
-    console.log(data)
+    lightSwitch.src = 'switch-on.png'
+    getSpaces().then(spaces => spaces.forEach(space => spacesApi.spacesTurnOn(space.id)))
   }
 })
-
-spacesApi.spacesTurnOn(1)
-
-// const spaceIds = []
-// fetch('http://192.168.10.2/admin/api/spaces').then(resp => resp.json()).then(json => {
-//   json.list.forEach(space => spaceIds.push(space.id))
-// }).catch(console.error.bind(console))
-
-// const lightSwitch = document.getElementById('switch')
-
-// lightSwitch.addEventListener('click', () => {
-//   if (lightSwitch.src.includes('switch-on.png')) {
-//     lightSwitch.src = 'switch-off.png'
-//     spaceIds.forEach(id => fetch(`http://192.168.10.2/admin/api/spaces/${id}/turnoff`, { method: 'POST' }))
-//   } else {
-//     lightSwitch.src = 'switch-on.png'
-//     spaceIds.forEach(id => fetch(`http://192.168.10.2/admin/api/spaces/${id}/turnon`, { method: 'POST' }))
-//   }
-// })
