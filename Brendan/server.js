@@ -20,7 +20,8 @@ const server = http.createServer((req, res) => {
 
   // Proxy by default
   proxy.web(req, res, {
-    target: 'http://192.168.10.2'
+    // target: 'http://192.168.10.2'
+    target: 'http://192.168.1.19'
   })
 })
 

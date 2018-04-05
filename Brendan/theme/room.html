@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Room 1 | IPRO 214</title>
+  <title>IPRO 214</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -64,6 +64,13 @@
     }
     .control {
       width: 100%;
+    }
+    .disabled-card {
+      opacity: 0.45;
+    }
+    .disabled-card:hover,
+    .disabled-card:focus {
+      cursor: not-allowed;
     }
   </style>
   <!-- Custom styles for this template-->
@@ -176,7 +183,7 @@
           </a>
         </li>
       </ul> -->
-      <ul class="navbar-nav ml-auto">
+      <!-- <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-envelope"></i>
@@ -270,7 +277,7 @@
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </nav>
   <div class="content-wrapper">
@@ -280,10 +287,10 @@
         <li class="breadcrumb-item">
           <a href="index.html">Home</a>
         </li>
-        <li class="breadcrumb-item active">Room 1</li>
+        <li class="breadcrumb-item active"><span class="room-id"></span></li>
       </ol>
       <!-- Header -->
-      <h1 class="display-5">Room 1</h1>
+      <h1 class="display-5"><span class="room-id"></span></h1>
       <div class="row">
         <div class="col-sm-6 mb-3">
           <!-- on off toggle -->
@@ -305,14 +312,14 @@
               <h5 class="card-title">Dimmer</h5>
               <h6 class="card-subtitle mb-4 text-muted">The overall brightness of the room</h6>
               <div class="rkmd-slider slider-discrete slider-lightBlue">
-                <input type="range" min="0" max="100" step="5" value>
+                <input id="brightness" type="range" min="0" max="100" step="5" value="0">
               </div>
             </div>
           </div>
         </div>
         <div class="col-sm-6 mb-3">
           <!-- color temperature -->
-          <div class="control card p-1">
+          <div id="temp-card" class="control card p-1">
             <div class="card-body">
               <h5 class="card-title">Color Temperature</h5>
               <h6 class="card-subtitle mb-4 text-muted">Affects the look and feel of the light</h6>
@@ -326,11 +333,11 @@
     </div>
     <!-- /.container-fluid-->
     <footer class="sticky-footer">
-      <div class="container">
+      <!-- <div class="container">
         <div class="text-center">
           <small>Copyright © Your Website 2018</small>
         </div>
-      </div>
+      </div> -->
     </footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -372,7 +379,7 @@
   <script src="js/material-slider.js"></script>
   <!-- sdk and app logic -->
   <script src="js/sdk.js"></script>
-  <script src="js/room1.js"></script>
+  <script src="js/room.js"></script>
 </body>
 
 </html>

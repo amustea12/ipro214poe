@@ -24,6 +24,22 @@ $(document).ready(function() {
 
 });
 
+//This will trigger "change" event when "val(new_val)" called 
+//with value different than the current one
+(function($){
+    var originalVal = $.fn.val;
+    $.fn.val = function(){
+        var prev;
+        if(arguments.length>0){
+            prev = originalVal.apply(this,[]);
+        }
+        var result =originalVal.apply(this,arguments);
+        if(arguments.length>0 && prev!=originalVal.apply(this,[]))
+            $(this).change();  // OR with custom event $(this).trigger('value-changed')
+        return result;
+    };
+})(jQuery);
+
 /* Range Slider Function */
 (function($) {
 
@@ -71,7 +87,7 @@ $(document).ready(function() {
       });
     }
 
-    self.on('mousedown', '.slider-handle', function(e) {
+    self.on('mousedown touchstart', '.slider-handle', function(e) {
       if(e.button === 2) {
         return false;
       }
@@ -96,7 +112,21 @@ $(document).ready(function() {
             slider_move(parents, slider_new_width, slider_width);
           }
         },
+        touchmove: function(e) {
+          var slider_new_width = e.targetTouches[0].pageX - slider_offset;
+
+          if(slider_new_width <= slider_width && !(slider_new_width < '0')) {
+            slider_move(parents, slider_new_width, slider_width);
+          }
+        },
         mouseup: function(e) {
+          $(this).off(handlers);
+
+          if(parents.hasClass('slider-discrete') === true) {
+            parents.find('.is-active').removeClass('is-active');
+          }
+        },
+        touchend: function(e) {
           $(this).off(handlers);
 
           if(parents.hasClass('slider-discrete') === true) {
@@ -107,7 +137,7 @@ $(document).ready(function() {
       $(document).on(handlers);
     });
 
-    self.on('mousedown', '.slider', function(e) {
+    self.on('mousedown touchstart', '.slider', function(e) {
       if(e.button === 2) {
         return false;
       }
@@ -128,6 +158,9 @@ $(document).ready(function() {
 
       var handlers = {
         mouseup: function(e) {
+          $(this).off(handlers);
+        },
+        touchend: function(e) {
           $(this).off(handlers);
         }
       };
