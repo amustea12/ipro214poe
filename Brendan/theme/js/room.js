@@ -70,6 +70,7 @@ $(document).ready(() => {
     case '2':
       document.title = `Office | ${document.title}`
       $('.room-id').text('Office')
+      document.getElementById("temp-card").style.display = "none";
       break
     default:
       document.title = `Room ${getParameterByName('id')} | ${document.title}`
