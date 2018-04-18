@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
   if (parsedUrl.path.match(/^\/admin\/api/)) {
     console.log(`Proxying ${req.method} ${req.url} to Gateway`)
     proxy.web(req, res, {
-      target: 'http://192.168.10.2'
+      target: 'http://192.168.10.2' // replace with Gateway IP
     })
     return
   }
