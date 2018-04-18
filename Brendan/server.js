@@ -17,7 +17,11 @@ const server = http.createServer((req, res) => {
     res.end()
     return
   }
-
+  
+  // TODO: See link for building a static file server.
+  // http://adrianmejia.com/blog/2016/08/24/Building-a-Node-js-static-file-server-files-over-HTTP-using-ES6/
+  
+  // TODO: Then, only proxy if the client is requesting "/api*"
   // Proxy by default
   proxy.web(req, res, {
     // target: 'http://192.168.10.2'
